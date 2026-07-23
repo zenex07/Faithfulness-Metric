@@ -37,5 +37,50 @@
 ```bash
 # In a notebook or terminal:
 pip install rag-scorecard   # <-- once you publish to PyPI
+
+2️⃣Minimal usage example
+Python
+
+Copy
+from rag_scorecard.faithfulness import score_faithfulness
+
+question = "What is quantum computing?"
+context  = "Quantum computing uses qubits instead of bits."
+answer   = "Quantum computing is a type of computing."
+
+print(score_faithfulness(question, context, answer))  # → 0.85 (high faithfulness)
+3️⃣ Run the full CLI (once you have all three metrics)
+Bash
+
+Copy
+rag-scorecard --pipeline ./my_rag_pipeline.py \
+    --question "What is quantum computing?" \
+    --context ./retrieved_context.txt \
+    --answer ./model_output.txt
+Output (JSON):
+
+JSON
+
+Copy
+{
+  "faithfulness_score": 0.87,
+  "citation_accuracy": 0.62,
+  "dialect_fidelity": 0.95,
+  "overall_score": 0.81
+}
+📂 Repository Structure
+Bash
+
+Copy
+rag-scorecard/
+├── README.md                # you are reading it!
+├── requirements.txt         # pin dependencies (bert-score, rich, etc.)
+├── faithfulness.py          # core metric (see code above)
+├── citation.py              # token‑level citation checker
+├── dialect.py               # dialect consistency (US/UK/Indian English)
+├── main.py                  # CLI entrypoint (argparse)
+├── examples/                # HotpotQA / LangChain demos
+└── tests/                   # pytest suite (run `pytest`)
+
 # OR, for a quick test without publishing:
 pip install bert-score
